@@ -19,7 +19,8 @@ func Init(db *sql.DB, db_source string) error {
 func InitTables(db *sql.DB) error {
 	sqlStmt := `create table credit(
 id integer not null primary key,
-name test,
+name text,
+icon text,
 amount float,
 debit float,
 balance float,

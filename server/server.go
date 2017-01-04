@@ -4,6 +4,8 @@ import (
 	"net/http"
 )
 
+var Context = Alarm{}
+
 func Init() {
 	http.HandleFunc("/api/", apiHandler)
 }
