@@ -17,7 +17,17 @@ type Credit struct {
 }
 
 type Alarm struct {
-	Db *sql.DB
+	Db      *sql.DB
+	Credits []Credit
+}
+
+func prepareStmt(stmtSql string) (*sql.Tx, *sql.Stmt, error) {
+	tx, err := Context.Db.Begin()
+	if err != nil {
+		log.Fatal(err)
+	}
+	stmt, err := tx.Prepare(stmtSql)
+	return tx, stmt, err
 }
 
 func (c *Credit) Save() {
@@ -28,11 +38,7 @@ func (c *Credit) Save() {
 		stmtSql = "update credit set name = ?, icon =? ,amount =?,debit =?,balance =?,account_date =?,repayment_date =? where id =" +
 			string(c.Id)
 	}
-	tx, err := Context.Db.Begin()
-	if err != nil {
-		log.Fatal(err)
-	}
-	stmt, err := tx.Prepare(stmtSql)
+	tx, stmt, err := prepareStmt(stmtSql)
 	if err != nil {
 		log.Fatal(err)
 	}

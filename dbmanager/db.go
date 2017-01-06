@@ -42,3 +42,8 @@ func Exists(db *sql.DB, table string) bool {
 	}
 	return false
 }
+
+func PatchData(db *sql.DB, table string) (*sql.Rows, error) {
+	query := fmt.Sprintf("select * from %s", table)
+	return db.Query(query)
+}
