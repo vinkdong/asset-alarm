@@ -6,12 +6,12 @@ import (
 	"../dbmanager"
 	"../server"
 	"os"
+	"fmt"
 )
 
 var sou = &sql.DB{}
 
 func TestDbInit(t *testing.T) {
-	os.Remove("./t.db")
 	sou = &sql.DB{}
 	err := dbmanager.Init(sou, "./t.db")
 	if err != nil {
@@ -20,6 +20,7 @@ func TestDbInit(t *testing.T) {
 }
 
 func TestExits(t *testing.T) {
+	os.Remove("./t.db")
 	TestDbInit(t)
 	exits := dbmanager.Exists(sou, "credit")
 	if exits == true {
@@ -43,8 +44,19 @@ func TestPatchData(t *testing.T) {
 		t.Error("patch database error")
 		return
 	}
-	_, err = r.Columns()
-	if err != nil {
-		t.Error("convert rows to string[] error")
+	defer r.Close()
+	for r.Next() {
+		var accout_data, repayment_date int8
+		var id int
+		var amount, debit, balance float64
+		var name, icon string
+		if err := r.Scan(&id, &name, &icon, &amount, &debit, &balance, &accout_data, &repayment_date); err != nil {
+			t.Error("test patch data Scan error\n")
+			t.Error(err)
+		}
+		if name != "招商银行" {
+			t.Errorf("test patch data content expect '招商银行' but get %s", name)
+		}
+		fmt.Println(name)
 	}
 }

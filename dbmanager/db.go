@@ -34,6 +34,7 @@ repayment_date int
 func Exists(db *sql.DB, table string) bool {
 	query := fmt.Sprintf(SQL_EXIT, table)
 	r, err := db.Query(query)
+	defer r.Close()
 	if err != nil {
 		return false
 	}
