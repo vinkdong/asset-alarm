@@ -6,7 +6,6 @@ import (
 	"../dbmanager"
 	"../server"
 	"os"
-	"fmt"
 )
 
 var sou = &sql.DB{}
@@ -45,18 +44,15 @@ func TestPatchData(t *testing.T) {
 		return
 	}
 	defer r.Close()
+
+	c := &server.Credit{}
 	for r.Next() {
-		var accout_data, repayment_date int8
-		var id int
-		var amount, debit, balance float64
-		var name, icon string
-		if err := r.Scan(&id, &name, &icon, &amount, &debit, &balance, &accout_data, &repayment_date); err != nil {
+		if err := c.ConventFormRow(r); err != nil {
 			t.Error("test patch data Scan error\n")
 			t.Error(err)
 		}
-		if name != "招商银行" {
-			t.Errorf("test patch data content expect '招商银行' but get %s", name)
+		if c.Name != "招商银行" {
+			t.Errorf("test patch data content expect '招商银行' but get %s", c.Name)
 		}
-		fmt.Println(name)
 	}
 }
