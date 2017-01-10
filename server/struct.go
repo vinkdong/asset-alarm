@@ -3,6 +3,7 @@ package server
 import (
 	"database/sql"
 	"log"
+	"fmt"
 )
 
 type Credit struct {
@@ -19,6 +20,7 @@ type Credit struct {
 type Alarm struct {
 	Db      *sql.DB
 	Credits []Credit
+	DbPath  string
 }
 
 func prepareStmt(stmtSql string) (*sql.Tx, *sql.Stmt, error) {
@@ -55,4 +57,18 @@ func (c *Credit) ConventFormRow(rows *sql.Rows) error {
 		log.Println("[WARNING] convert rows to credit object error")
 	}
 	return err
+}
+
+func (c *Credit) ToJsonString() string {
+	jsonStr := fmt.Sprintf(`{
+	"name":"%s",
+	"icon":"%s",
+	"amount":%f,
+	"debit":%f,
+	"balance":%f,
+	"account_date":%d,
+	"repayment_date":%d,
+	"id":%d
+}`, c.Name, c.Icon, c.Amount, c.Debit, c.Balance, c.Account_date, c.Repayment_date, c.Id)
+	return jsonStr
 }

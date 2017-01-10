@@ -3,6 +3,7 @@ package dbmanager
 import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
+	"../log"
 	"fmt"
 )
 
@@ -46,5 +47,9 @@ func Exists(db *sql.DB, table string) bool {
 
 func PatchData(db *sql.DB, table string) (*sql.Rows, error) {
 	query := fmt.Sprintf("select * from %s", table)
-	return db.Query(query)
+	r, err := db.Query(query)
+	if err != nil {
+		log.Errorf("patch data form table %s error", table)
+	}
+	return r, err
 }

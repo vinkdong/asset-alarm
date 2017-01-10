@@ -6,6 +6,7 @@ import (
 	"../dbmanager"
 	"database/sql"
 	"os"
+	"github.com/bitly/go-simplejson"
 )
 
 func TestCreditSave(t *testing.T) {
@@ -18,5 +19,20 @@ func TestCreditSave(t *testing.T) {
 	a.Save()
 	if a.Id != 1{
 		t.Error("insert one record id should be 1")
+	}
+}
+
+func TestCreditObj2JsonString(t *testing.T)  {
+	a := server.Credit{Name:"Vink Bank"}
+	str := a.ToJsonString()
+	js,err := simplejson.NewJson([]byte(str))
+	if err != nil {
+		t.Error("convert json error")
+		return
+	}
+	name := js.Get("name").MustString()
+	expect := "Vink Bank"
+	if name != expect {
+		t.Error("convert json value is not like expect")
 	}
 }
