@@ -36,3 +36,12 @@ func TestCreditObj2JsonString(t *testing.T)  {
 		t.Error("convert json value is not like expect")
 	}
 }
+
+func TestCreditOjb2Json(t *testing.T){
+	a := server.Credit{Name:"Vink Bank"}
+	js := a.ToJson()
+	expect := "Vink Bank"
+	if js.Get("name").MustString() != expect {
+		t.Error("get convert json value is not like expect")
+	}
+}

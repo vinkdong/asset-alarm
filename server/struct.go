@@ -2,8 +2,9 @@ package server
 
 import (
 	"database/sql"
-	"log"
+	"../log"
 	"fmt"
+	"github.com/bitly/go-simplejson"
 )
 
 type Credit struct {
@@ -26,7 +27,7 @@ type Alarm struct {
 func prepareStmt(stmtSql string) (*sql.Tx, *sql.Stmt, error) {
 	tx, err := Context.Db.Begin()
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	stmt, err := tx.Prepare(stmtSql)
 	return tx, stmt, err
@@ -42,7 +43,7 @@ func (c *Credit) Save() {
 	}
 	tx, stmt, err := prepareStmt(stmtSql)
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
 	}
 	defer stmt.Close()
 	r, err := stmt.Exec(c.Name, c.Icon, c.Amount, c.Debit, c.Balance, c.Account_date, c.Repayment_date)
@@ -54,7 +55,7 @@ func (c *Credit) Save() {
 func (c *Credit) ConventFormRow(rows *sql.Rows) error {
 	var err error
 	if err = rows.Scan(&c.Id, &c.Name, &c.Icon, &c.Amount, &c.Debit, &c.Balance, &c.Account_date, &c.Repayment_date); err != nil {
-		log.Println("[WARNING] convert rows to credit object error")
+		log.Error("convert rows to credit object error")
 	}
 	return err
 }
@@ -71,4 +72,14 @@ func (c *Credit) ToJsonString() string {
 	"id":%d
 }`, c.Name, c.Icon, c.Amount, c.Debit, c.Balance, c.Account_date, c.Repayment_date, c.Id)
 	return jsonStr
+}
+
+func (c *Credit) ToJson() *simplejson.Json {
+	jsData := c.ToJsonString()
+	js, err := simplejson.NewJson([]byte(jsData))
+	if err != nil {
+		log.Error("parser credit credit to json error")
+		return nil
+	}
+	return js
 }
