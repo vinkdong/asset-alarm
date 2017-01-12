@@ -7,6 +7,7 @@ import (
 	"../log"
 )
 
+const VERSION  = "v0.1"
 var Context = Alarm{}
 
 func Init() {

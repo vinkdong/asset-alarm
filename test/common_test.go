@@ -25,3 +25,17 @@ func TestParseRowsToCreditList(t *testing.T) {
 		t.Errorf("test TestParseRowsToCreditList expect get Vink Bank but get %s", c[1].Name)
 	}
 }
+
+func TestParserCreditsToJson(t *testing.T) {
+	a := server.Credit{Name: "a bank", Amount: 1000.0}
+	b := server.Credit{Name: "b bank", Debit: 2}
+	l := make([]server.Credit, 0)
+	l = append(l, a)
+	l = append(l, b)
+	js := server.ParserCreditsToJson(&l)
+	credits := js.Get("credits")
+	aAmount := credits.GetIndex(0).Get("amount").MustFloat64()
+	if aAmount != 1000.0 {
+		t.Errorf("test get credit:0's amount not correct get %f", aAmount)
+	}
+}

@@ -46,6 +46,6 @@ func HandlerList(resp http.ResponseWriter, req *http.Request) {
 	}
 	var cl = &[]Credit{}
 	ParseRowsToCreditList(r, cl)
-
-
+	js := ParserCreditsToJson(cl)
+	js.String()
 }
