@@ -22,7 +22,7 @@ func InitTables(db *sql.DB) error {
 id integer not null primary key,
 name text,
 icon text,
-amount float,
+credit float,
 debit float,
 balance float,
 account_date int,

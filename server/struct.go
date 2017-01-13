@@ -10,7 +10,7 @@ import (
 type Credit struct {
 	Name           string
 	Icon           string
-	Amount         float64
+	Credit         float64
 	Debit          float64
 	Balance        float64
 	Account_date   int8
@@ -36,9 +36,9 @@ func prepareStmt(stmtSql string) (*sql.Tx, *sql.Stmt, error) {
 func (c *Credit) Save() {
 	var stmtSql string
 	if c.Id == 0 {
-		stmtSql = "insert into credit(name,icon,amount,debit,balance,account_date,repayment_date) values(?,?,?,?,?,?,?)"
+		stmtSql = "insert into credit(name,icon,credit,debit,balance,account_date,repayment_date) values(?,?,?,?,?,?,?)"
 	} else {
-		stmtSql = "update credit set name = ?, icon =? ,amount =?,debit =?,balance =?,account_date =?,repayment_date =? where id =" +
+		stmtSql = "update credit set name = ?, icon =? ,credit =?,debit =?,balance =?,account_date =?,repayment_date =? where id =" +
 			string(c.Id)
 	}
 	tx, stmt, err := prepareStmt(stmtSql)
@@ -46,7 +46,7 @@ func (c *Credit) Save() {
 		log.Error(err)
 	}
 	defer stmt.Close()
-	r, err := stmt.Exec(c.Name, c.Icon, c.Amount, c.Debit, c.Balance, c.Account_date, c.Repayment_date)
+	r, err := stmt.Exec(c.Name, c.Icon, c.Credit, c.Debit, c.Balance, c.Account_date, c.Repayment_date)
 	id, err := r.LastInsertId()
 	tx.Commit()
 	c.Id = int8(id)
@@ -54,7 +54,7 @@ func (c *Credit) Save() {
 
 func (c *Credit) ConventFormRow(rows *sql.Rows) error {
 	var err error
-	if err = rows.Scan(&c.Id, &c.Name, &c.Icon, &c.Amount, &c.Debit, &c.Balance, &c.Account_date, &c.Repayment_date); err != nil {
+	if err = rows.Scan(&c.Id, &c.Name, &c.Icon, &c.Credit, &c.Debit, &c.Balance, &c.Account_date, &c.Repayment_date); err != nil {
 		log.Error("convert rows to credit object error")
 	}
 	return err
@@ -64,13 +64,13 @@ func (c *Credit) ToJsonString() string {
 	jsonStr := fmt.Sprintf(`{
 	"name":"%s",
 	"icon":"%s",
-	"amount":%f,
+	"credit":%f,
 	"debit":%f,
 	"balance":%f,
 	"account_date":%d,
 	"repayment_date":%d,
 	"id":%d
-}`, c.Name, c.Icon, c.Amount, c.Debit, c.Balance, c.Account_date, c.Repayment_date, c.Id)
+}`, c.Name, c.Icon, c.Credit, c.Debit, c.Balance, c.Account_date, c.Repayment_date, c.Id)
 	return jsonStr
 }
 

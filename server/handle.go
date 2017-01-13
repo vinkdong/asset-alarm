@@ -47,5 +47,10 @@ func HandlerList(resp http.ResponseWriter, req *http.Request) {
 	var cl = &[]Credit{}
 	ParseRowsToCreditList(r, cl)
 	js := ParserCreditsToJson(cl)
-	js.String()
+	respData, err := js.MarshalJSON()
+	if err != nil {
+		log.Error("convert json to bytes error")
+		resp.Write([]byte(`500 SERVER INTERNAL ERROR`))
+	}
+	resp.Write(respData)
 }
