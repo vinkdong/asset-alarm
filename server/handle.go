@@ -42,5 +42,6 @@ func HandlerList(resp http.ResponseWriter, req *http.Request) {
 		log.Error("convert json to bytes error")
 		resp.Write([]byte(`500 SERVER INTERNAL ERROR`))
 	}
+	resp.Header().Set("content-type","application/json")
 	resp.Write(respData)
 }
