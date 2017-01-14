@@ -15,6 +15,18 @@ func apiHandler(resp http.ResponseWriter, req *http.Request) {
 			HandlerList(resp, req)
 		}
 		break
+	case "item/add":
+		if checkAccess(resp, req) {
+			HandLerAddItem(resp, req)
+		}
+	case "item/del":
+		if checkAccess(resp, req) {
+			HandLerDelItem(resp, req)
+		}
+	case "item/update":
+		if checkAccess(resp, req) {
+			HandLerUpdateItem(resp, req)
+		}
 	default:
 		HandlerApiHome(resp, req)
 	}
@@ -45,3 +57,16 @@ func HandlerList(resp http.ResponseWriter, req *http.Request) {
 	resp.Header().Set("content-type","application/json")
 	resp.Write(respData)
 }
+
+func HandLerAddItem(resp http.ResponseWriter, req *http.Request)  {
+
+}
+
+func HandLerDelItem(resp http.ResponseWriter, req *http.Request) {
+
+}
+
+func HandLerUpdateItem(resp http.ResponseWriter, req *http.Request) {
+
+}
+
