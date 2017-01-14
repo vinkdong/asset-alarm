@@ -2,8 +2,6 @@ package server
 
 import (
 	"net/http"
-	"fmt"
-	"io/ioutil"
 	"../log"
 	"../dbmanager"
 )
@@ -20,14 +18,6 @@ func apiHandler(resp http.ResponseWriter, req *http.Request) {
 	default:
 		HandlerApiHome(resp, req)
 	}
-
-	//urls := req.URL
-	r, err := ioutil.ReadAll(req.Body)
-	if err != nil {
-		log.Error("get request body error")
-	}
-	fmt.Println(string(r))
-	resp.Write([]byte(`hello world`))
 }
 
 func checkAccess(resp http.ResponseWriter, req *http.Request) bool {

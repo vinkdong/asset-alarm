@@ -11,6 +11,12 @@ func Info(l interface{}) {
 	log.Println(info)
 }
 
+func Infof(l string, a ...interface{}) {
+	tmp := fmt.Sprintf(l, a)
+	info := fmt.Sprintf("%s [%s] %s", time.Now().String(), "INFO", tmp)
+	log.Println(info)
+}
+
 func Error(l interface{}) {
 	err := fmt.Sprintf("%s [%s] %v", time.Now().String(), "Error", l)
 	log.Println(err)
