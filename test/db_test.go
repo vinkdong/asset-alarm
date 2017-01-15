@@ -47,7 +47,7 @@ func TestPatchData(t *testing.T) {
 
 	c := &server.Credit{}
 	for r.Next() {
-		if err := c.ConventFormRow(r); err != nil {
+		if err := c.ConvertFormRow(r); err != nil {
 			t.Error("test patch data Scan error\n")
 			t.Error(err)
 		}

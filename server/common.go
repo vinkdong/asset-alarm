@@ -9,7 +9,7 @@ func ParseRowsToCreditList(row *sql.Rows, c_list *[]Credit) {
 	defer row.Close()
 	for row.Next() {
 		var c = &Credit{}
-		c.ConventFormRow(row)
+		c.ConvertFormRow(row)
 		*c_list = append(*c_list, *c)
 	}
 }

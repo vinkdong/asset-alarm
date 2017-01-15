@@ -52,7 +52,7 @@ func (c *Credit) Save() {
 	c.Id = int8(id)
 }
 
-func (c *Credit) ConventFormRow(rows *sql.Rows) error {
+func (c *Credit) ConvertFormRow(rows *sql.Rows) error {
 	var err error
 	if err = rows.Scan(&c.Id, &c.Name, &c.Icon, &c.Credit, &c.Debit, &c.Balance, &c.Account_date, &c.Repayment_date); err != nil {
 		log.Error("convert rows to credit object error")
