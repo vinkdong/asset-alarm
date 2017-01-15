@@ -7,6 +7,7 @@ import (
 	"database/sql"
 	"os"
 	"github.com/bitly/go-simplejson"
+	"fmt"
 )
 
 func TestCreditSave(t *testing.T) {
@@ -43,5 +44,28 @@ func TestCreditOjb2Json(t *testing.T){
 	expect := "Vink Bank"
 	if js.Get("name").MustString() != expect {
 		t.Error("get convert json value is not like expect")
+	}
+}
+
+func TestConvertFromJson(t *testing.T) {
+	js, err := simplejson.NewJson([]byte(`
+{
+	"name":"Vink Bank",
+	"icon":"../icon/vink.logo",
+	"credit":10.000000,
+	"debit":50.000000,
+	"balance":10.000000,
+	"account_date":8,
+	"repayment_date":0,
+	"id":9
+}
+	`))
+	if err != nil{
+		t.Error("convert credit from json error")
+	}
+	expect := "Vink Bank"
+	result := js.Get("name").MustString()
+	if expect != result {
+		t.Errorf("expect json->name is %s but got %s", expect, result)
 	}
 }
