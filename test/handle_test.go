@@ -6,6 +6,8 @@ import (
 	"net/http/httptest"
 	"../server"
 	"github.com/bitly/go-simplejson"
+	"os"
+	"strings"
 )
 
 func TestHandlerList(t *testing.T) {
@@ -33,5 +35,47 @@ func TestHandlerList(t *testing.T) {
 	expect := "TH bank"
 	if name0 != expect {
 		t.Errorf("expect bank0's name is %s but got %s", expect, name0)
+	}
+}
+
+func TestHandlerItemAdd(t *testing.T) {
+	os.Remove("./t.db")
+	TestExits(t)
+	server.Context.Db = sou
+	A := server.Credit{Name: "TH bank", Credit: 100000}
+	A.Save()
+
+	data := strings.NewReader(`
+	{
+	"version":"v0.1",
+	"credit" : {
+		"name":"Vink Bank",
+		"icon":"../icon/vink.logo",
+		"credit":10.000000,
+		"debit":50.000000,
+		"balance":10.000000,
+		"account_date":8,
+		"repayment_date":0
+	}
+}
+	`)
+
+	req, err := http.NewRequest("GET", "/api/item/add", data)
+	if err != nil {
+		t.Error("http request init fail")
+	}
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(server.HandLerAddItem)
+
+	handler.ServeHTTP(rr, req)
+	js, err := simplejson.NewFromReader(rr.Body)
+	if err != nil{
+		t.Error("response data is not json")
+	}
+	success := js.Get("success").MustBool()
+	expect := true
+	if success != expect {
+		t.Error("add item should be true but go false")
 	}
 }

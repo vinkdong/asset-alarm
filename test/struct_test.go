@@ -7,7 +7,6 @@ import (
 	"database/sql"
 	"os"
 	"github.com/bitly/go-simplejson"
-	"fmt"
 )
 
 func TestCreditSave(t *testing.T) {
