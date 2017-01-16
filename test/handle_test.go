@@ -8,6 +8,7 @@ import (
 	"github.com/bitly/go-simplejson"
 	"os"
 	"strings"
+	"../dbmanager"
 )
 
 func TestHandlerList(t *testing.T) {
@@ -77,5 +78,24 @@ func TestHandlerItemAdd(t *testing.T) {
 	expect := true
 	if success != expect {
 		t.Error("add item should be true but go false")
+	}
+
+	r, err := dbmanager.PatchData(sou, "credit")
+	if err != nil{
+		t.Error("patch database error")
+		return
+	}
+	defer r.Close()
+
+	c := &server.Credit{}
+	r.Next()
+	for r.Next() {
+		if err := c.ConvertFormRow(r); err != nil {
+			t.Error("test patch data Scan error\n")
+			t.Error(err)
+		}
+		if c.Name != "Vink Bank" {
+			t.Errorf("test patch data content expect 'Vink Bank' but get %s", c.Name)
+		}
 	}
 }
