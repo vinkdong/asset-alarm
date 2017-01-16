@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"../log"
 	"../dbmanager"
+	"github.com/bitly/go-simplejson"
 )
 
 func apiHandler(resp http.ResponseWriter, req *http.Request) {
@@ -58,8 +59,22 @@ func HandlerList(resp http.ResponseWriter, req *http.Request) {
 	resp.Write(respData)
 }
 
-func HandLerAddItem(resp http.ResponseWriter, req *http.Request)  {
-
+func HandLerAddItem(resp http.ResponseWriter, req *http.Request) {
+	js, err := simplejson.NewFromReader(req.Body)
+	if err != nil {
+		log.Error("catch add item error cant convert to json object")
+	}
+	version := js.Get("version").MustString()
+	if version != VERSION {
+		resp.Write([]byte(`{"error":"api version is not support"}`))
+		return
+	}
+	creditJson := js.Get("credit")
+	var c = Credit{}
+	c.ConvertFromJson(creditJson)
+	c.Save()
+	resp.Header().Set("content-type", "application/json")
+	resp.Write([]byte(`{"success":true}`))
 }
 
 func HandLerDelItem(resp http.ResponseWriter, req *http.Request) {
