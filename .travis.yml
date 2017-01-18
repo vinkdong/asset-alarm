@@ -5,3 +5,4 @@ go:
 
 install: make get-deps
 install: go get github.com/mattn/go-sqlite3
+install: go get github.com/bitly/go-simplejson
