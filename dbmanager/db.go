@@ -32,6 +32,22 @@ repayment_date int
 	return err
 }
 
+func InitRecordTable(db *sql.DB) error {
+	sqlStmt := `
+CREATE TABLE record (
+  id        INTEGER NOT NULL PRIMARY KEY,
+  credit_id INT,
+  type      TEXT,
+  amount    FLOAT,
+  credit    FLOAT,
+  debit     FLOAT,
+  time      DATETIME
+)
+`
+	_, err := db.Exec(sqlStmt)
+	return err
+}
+
 func Exists(db *sql.DB, table string) bool {
 	query := fmt.Sprintf(SQL_EXIT, table)
 	r, err := db.Query(query)

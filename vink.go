@@ -32,5 +32,8 @@ func InitDb() {
 	if !dbmanager.Exists(db, "credit") {
 		dbmanager.InitTables(db)
 	}
+	if !dbmanager.Exists(db, "record") {
+		dbmanager.InitRecordTable(db)
+	}
 	server.Context.Db = db
 }
