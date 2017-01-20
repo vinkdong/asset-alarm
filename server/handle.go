@@ -28,6 +28,10 @@ func apiHandler(resp http.ResponseWriter, req *http.Request) {
 		if checkAccess(resp, req) {
 			HandLerUpdateItem(resp, req)
 		}
+	case "record/add":
+		if checkAccess(resp, req) {
+			HandLerAddRecord(resp, req)
+		}
 	default:
 		HandlerApiHome(resp, req)
 	}
@@ -83,5 +87,8 @@ func HandLerDelItem(resp http.ResponseWriter, req *http.Request) {
 
 func HandLerUpdateItem(resp http.ResponseWriter, req *http.Request) {
 
+}
+
+func HandLerAddRecord(resp http.ResponseWriter, req *http.Request) {
 }
 

@@ -18,6 +18,35 @@ type Credit struct {
 	Id             int64
 }
 
+type Record struct {
+	Id       int64
+	CreditId int64
+	Type     string
+	Amount   float64
+	Credit   float64
+	Debit    float64
+	Time     string
+}
+
+func (r *Record) Save() {
+	var stmtSql string
+	if r.Id == 0 {
+		stmtSql = "INSERT INTO record(credit_id,type,amount,credit,debit,time) VALUES (?,?,?,?,?,?);"
+	} else {
+		stmtSql = "UPDATE record SET credit_id = ?,type = ? ,amount = ? ,credit = ? ,debit = ?, time = ? where id = ;" +
+			string(r.Id)
+	}
+	tx, stmt, err := prepareStmt(stmtSql)
+	if err != nil {
+		log.Error(err)
+	}
+	defer stmt.Close()
+	result, err := stmt.Exec(r.CreditId, r.Type, r.Amount, r.Credit, r.Debit, r.Time)
+	id, err := result.LastInsertId()
+	tx.Commit()
+	r.Id = id
+}
+
 type Alarm struct {
 	Db      *sql.DB
 	Credits []Credit

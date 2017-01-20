@@ -68,3 +68,15 @@ func TestConvertFromJson(t *testing.T) {
 		t.Errorf("expect json->name is %s but got %s", expect, result)
 	}
 }
+
+func TestRecordSave(t *testing.T) {
+	os.Remove("./t.db")
+	TestDbInit(t)
+	TestExits(t)
+	server.Context.Db = sou
+	a := server.Record{CreditId: 1, Credit: 9, Amount: 8, Time: "2017-01-20 20:22:01"}
+	a.Save()
+	if a.Id != 1 {
+		t.Error("insert one record id should be 1")
+	}
+}
