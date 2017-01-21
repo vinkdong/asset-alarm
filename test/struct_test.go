@@ -80,3 +80,22 @@ func TestRecordSave(t *testing.T) {
 		t.Error("insert one record id should be 1")
 	}
 }
+
+func TestRecordFromJson(t *testing.T) {
+	js, _ := simplejson.NewJson([]byte(`
+{
+		"cid":1,
+		"type":"out",
+		"credit":10.000000,
+		"debit":50.000000,
+		"amount":10.000000,
+		"time":"2017-01-21 20:08:09"
+}
+	`))
+	r := server.Record{}
+	r.ConvertFromJson(js)
+	expect := "out"
+	if r.Type != expect {
+		t.Errorf("expect record type is %s but got %s", expect, r.Type)
+	}
+}
