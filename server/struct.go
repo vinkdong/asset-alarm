@@ -47,6 +47,16 @@ func (r *Record) Save() {
 	r.Id = id
 }
 
+func (r *Record) ConvertFromJson(js *simplejson.Json) {
+	r.Id = js.Get("id").MustInt64()
+	r.CreditId = js.Get("cid").MustInt64()
+	r.Type = js.Get("type").MustString()
+	r.Amount = js.Get("amount").MustFloat64()
+	r.Credit = js.Get("credit").MustFloat64()
+	r.Debit = js.Get("debit").MustFloat64()
+	r.Time = js.Get("time").MustString()
+}
+
 type Alarm struct {
 	Db      *sql.DB
 	Credits []Credit
