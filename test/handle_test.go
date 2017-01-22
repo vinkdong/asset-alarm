@@ -99,3 +99,63 @@ func TestHandlerItemAdd(t *testing.T) {
 		}
 	}
 }
+
+func TestHandlerRecordAdd(t *testing.T) {
+	os.Remove("./t.db")
+	TestExits(t)
+	server.Context.Db = sou
+	A := server.Record{CreditId: 1, Credit: 100000}
+	A.Save()
+
+	data := strings.NewReader(`
+{
+	"version":"v0.1",
+	"record" : {
+		"cid":1,
+		"type":"out",
+		"credit":10.000000,
+		"debit":50.000000,
+		"amount":10.000000,
+		"time":"2017-01-21 20:08:09"
+	}
+}
+	`)
+
+	req, err := http.NewRequest("GET", "/api/record/add", data)
+	if err != nil {
+		t.Error("http request init fail")
+	}
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(server.HandLerAddRecord)
+
+	handler.ServeHTTP(rr, req)
+	js, err := simplejson.NewFromReader(rr.Body)
+	if err != nil{
+		t.Error("response data is not json")
+	}
+	success := js.Get("success").MustBool()
+	expect := true
+	if success != expect {
+		t.Error("add item should be true but go false")
+	}
+
+	r, err := dbmanager.PatchData(sou, "record")
+	if err != nil{
+		t.Error("patch database error")
+		return
+	}
+	defer r.Close()
+
+	c := &server.Record{}
+	r.Next()
+	for r.Next() {
+		if err := c.ConvertFormRow(r); err != nil {
+			t.Error("test patch data Scan error\n")
+			t.Error(err)
+		}
+		if c.Debit != 50.000 {
+			t.Errorf("test patch data content expect 'Vink Bank' but get %s", c.Debit)
+		}
+	}
+}

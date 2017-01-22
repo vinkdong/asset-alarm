@@ -90,5 +90,20 @@ func HandLerUpdateItem(resp http.ResponseWriter, req *http.Request) {
 }
 
 func HandLerAddRecord(resp http.ResponseWriter, req *http.Request) {
+	js, err := simplejson.NewFromReader(req.Body)
+	if err != nil {
+		log.Error("catch add record error cant convert to json object")
+	}
+	version := js.Get("version").MustString()
+	if version != VERSION {
+		resp.Write([]byte(`{"error":"api version is not support"}`))
+		return
+	}
+	record := js.Get("record")
+	r := &Record{}
+	r.ConvertFromJson(record)
+	r.Save()
+	resp.Header().Set("content-type", "application/json")
+	resp.Write([]byte(`{"success":true}`))
 }
 

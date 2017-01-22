@@ -99,6 +99,14 @@ func (c *Credit) ConvertFormRow(rows *sql.Rows) error {
 	return err
 }
 
+func (c *Record) ConvertFormRow(rows *sql.Rows) error {
+	var err error
+	if err = rows.Scan(&c.Id, &c.CreditId, &c.Type, &c.Amount, &c.Credit, &c.Debit, &c.Time); err != nil {
+		log.Error("convert rows to credit object error")
+	}
+	return err
+}
+
 func (c *Credit) ConvertFromJson(js *simplejson.Json) {
 	c.Name = js.Get("name").MustString()
 	c.Icon = js.Get("icon").MustString()
