@@ -35,5 +35,25 @@ To manager all credit that should very nice
      </td>
      <td>Add an item to credit</td>
    </tr>
+   <tr>
+        <td>/api/record/add</td>
+        <td>POST</td>
+        <td>
+        <pre lang="javascript">
+{
+	"version":"v0.1",
+	"record" : {
+		"cid":1,
+		"type":"out",
+		"credit":10.000000,
+		"debit":50.000000,
+		"amount":10.000000,
+		"time":"2017-01-23 20:01:09"
+	}
+}
+        </pre>
+        </td>
+        <td>Add an item to record</td>
+      </tr>
   </tbody>
 </table>
