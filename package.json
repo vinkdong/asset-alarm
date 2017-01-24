@@ -1,0 +1,31 @@
+{
+  "name": "asset-alarm",
+  "version": "1.0.0",
+  "description": "asset alarm user interface",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VinkDong/asset-alarm.git"
+  },
+  "keywords": [
+    "vinkdong",
+    "asset",
+    "alarm"
+  ],
+  "author": "vinkdong",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/VinkDong/asset-alarm/issues"
+  },
+  "homepage": "https://github.com/VinkDong/asset-alarm#readme",
+  "dependencies": {
+    "vue": "^2.1.10",
+    "vue-resource": "^1.0.3"
+  }
+}
