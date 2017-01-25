@@ -11,6 +11,7 @@ const VERSION  = "v0.1"
 var Context = Alarm{}
 
 func Init() {
+	http.HandleFunc("/", HomePageHandler)
 	http.HandleFunc("/api/", apiHandler)
 }
 
