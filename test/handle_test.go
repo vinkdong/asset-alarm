@@ -159,3 +159,24 @@ func TestHandlerRecordAdd(t *testing.T) {
 		}
 	}
 }
+
+func TestCheckStaticResources(t *testing.T) {
+	path := "a.js"
+	expect := server.CheckStaticResources(path,"js","png")
+	if expect != true {
+		t.Error(".js should be see as static resources")
+	}
+
+	path = "b.png"
+	expect = server.CheckStaticResources(path,"js","png")
+	if expect != true {
+		t.Error(".png should be see as static resources")
+	}
+
+	path = "c.do"
+	expect = server.CheckStaticResources(path,"js","png")
+	if expect == true {
+		t.Error(".do shouldn't be see as static resources")
+	}
+
+}

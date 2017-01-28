@@ -5,6 +5,15 @@ import (
 	"strings"
 )
 
+func CheckStaticResources(path string, suffix ...string) bool {
+	for i := 0; i < len(suffix); i++ {
+		if strings.HasSuffix(path, suffix[i]) {
+			return true
+		}
+	}
+	return false
+}
+
 func HomePageHandler(resp http.ResponseWriter, req *http.Request)  {
 	requestUrl := req.URL.Path
 	if strings.HasSuffix(requestUrl, ".js") {
