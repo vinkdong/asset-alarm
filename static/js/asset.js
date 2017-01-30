@@ -8,8 +8,14 @@ var vm = new Vue({
 
     },
     mounted: function () {
+        this.listView();
     },
     methods: {
-
+        listView: function () {
+            var self = this;
+            this.$http.get("/api/list").then(function (res) {
+                self.credits = res.body.credits;
+            })
+        }
     }
 });

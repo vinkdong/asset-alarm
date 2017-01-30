@@ -20,12 +20,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td></td>
-            <td>招商银行</td>
-            <td>408000</td>
-            <td>401002</td>
-            <td>6998</td>
+        <tr v-for="item in credits">
+            <td><img v-bind:src="item.icon"></td>
+            <td>{{item.name}}</td>
+            <td>{{item.credit}}</td>
+            <td>{{item.credit - item.debit}}</td>
+            <td>{{item.debit}}</td>
         </tr>
         </tbody>
     </table>
