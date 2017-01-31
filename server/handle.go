@@ -18,7 +18,9 @@ func HomePageHandler(resp http.ResponseWriter, req *http.Request) {
 	requestUrl := req.URL.Path
 	if CheckStaticResources(requestUrl, "js", "png", "jpg", "css") {
 		http.ServeFile(resp, req, "."+requestUrl)
+	} else if CheckStaticResources(requestUrl, "html"){
+		http.ServeFile(resp, req, "./static"+requestUrl)
 	} else {
-		http.ServeFile(resp,req,"./static/index.html")
+		http.ServeFile(resp, req, "./static/index.html")
 	}
 }
