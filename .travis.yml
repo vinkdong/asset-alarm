@@ -3,6 +3,4 @@ language: go
 go:
   - 1.8.x
 
-install: make get-deps
-install: go get github.com/mattn/go-sqlite3
-install: go get github.com/bitly/go-simplejson
+install: go get github.com/mattn/go-sqlite3 && go get github.com/bitly/go-simplejson
