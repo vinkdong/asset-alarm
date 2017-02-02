@@ -3,8 +3,8 @@ package server
 import (
 	"net/http"
 	"database/sql"
-	"../dbmanager"
-	"../log"
+	"github.com/VinkDong/asset-alarm/dbmanager"
+	"github.com/VinkDong/asset-alarm/log"
 )
 
 const VERSION  = "v0.1"

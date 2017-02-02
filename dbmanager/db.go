@@ -3,7 +3,7 @@ package dbmanager
 import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
-	"../log"
+	"github.com/VinkDong/asset-alarm/log"
 	"fmt"
 )
 

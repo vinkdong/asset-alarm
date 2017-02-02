@@ -2,7 +2,7 @@ package server
 
 import (
 	"database/sql"
-	"../log"
+	"github.com/VinkDong/asset-alarm/log"
 	"fmt"
 	"github.com/bitly/go-simplejson"
 )

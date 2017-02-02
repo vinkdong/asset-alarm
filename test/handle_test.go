@@ -4,11 +4,11 @@ import (
 	"testing"
 	"net/http"
 	"net/http/httptest"
-	"../server"
+	"github.com/VinkDong/asset-alarm/server"
 	"github.com/bitly/go-simplejson"
 	"os"
 	"strings"
-	"../dbmanager"
+	"github.com/VinkDong/asset-alarm/dbmanager"
 )
 
 func TestHandlerList(t *testing.T) {

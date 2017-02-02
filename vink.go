@@ -1,10 +1,10 @@
 package main
 
 import (
-	"./server"
+	"github.com/VinkDong/asset-alarm/server"
 	"flag"
-	"./dbmanager"
-	"./log"
+	"github.com/VinkDong/asset-alarm/dbmanager"
+	"github.com/VinkDong/asset-alarm/log"
 	"database/sql"
 )
 

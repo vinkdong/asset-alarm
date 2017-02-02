@@ -2,8 +2,8 @@ package testcase
 
 import "testing"
 import (
-	"../server"
-	"../dbmanager"
+	"github.com/VinkDong/asset-alarm/server"
+	"github.com/VinkDong/asset-alarm/dbmanager"
 )
 
 func TestParseRowsToCreditList(t *testing.T) {

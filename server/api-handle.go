@@ -2,8 +2,8 @@ package server
 
 import (
 	"net/http"
-	"../log"
-	"../dbmanager"
+	"github.com/VinkDong/asset-alarm/log"
+	"github.com/VinkDong/asset-alarm/dbmanager"
 	"github.com/bitly/go-simplejson"
 )
 

@@ -2,8 +2,8 @@ package testcase
 
 import (
 	"testing"
-	"../server"
-	"../dbmanager"
+	"github.com/VinkDong/asset-alarm/server"
+	"github.com/VinkDong/asset-alarm/dbmanager"
 	"database/sql"
 	"os"
 	"github.com/bitly/go-simplejson"

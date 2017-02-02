@@ -3,8 +3,8 @@ package testcase
 import (
 	"testing"
 	"database/sql"
-	"../dbmanager"
-	"../server"
+	"github.com/VinkDong/asset-alarm/dbmanager"
+	"github.com/VinkDong/asset-alarm/server"
 	"os"
 )
 
