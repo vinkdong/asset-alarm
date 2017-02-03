@@ -1,3 +1,4 @@
+# The Asset Alarm [![Build Status](https://travis-ci.org/VinkDong/asset-alarm.svg?branch=master)](http://vinkdong.com/asset-manager)
 To manager all credit that should very nice
 
 <table>
