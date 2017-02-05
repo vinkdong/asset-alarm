@@ -13,13 +13,14 @@ var vm = new Vue({
 
     },
     mounted: function () {
-        this.listView();
+        this.$nextTick(function () {
+            this.listView();
+        });
     },
     methods: {
         listView: function () {
-            var self = this;
-            this.$http.get("/api/list").then(function (res) {
-                self.credits = res.body.credits;
+            this.$http.get("/api/list").then(res=>{
+                this.credits = res.body.credits;
             })
         }
     }
