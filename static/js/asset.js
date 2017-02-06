@@ -10,7 +10,9 @@ var vm = new Vue({
         credits:[]
     },
     filters: {
-
+        formatMoney(value) {
+            return "¥" + value;
+        }
     },
     mounted: function () {
         this.$nextTick(function () {

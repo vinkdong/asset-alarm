@@ -23,9 +23,9 @@
         <tr v-for="item in credits">
             <td><img v-bind:src="item.icon"></td>
             <td>{{item.name}}</td>
-            <td>{{item.credit}}</td>
-            <td>{{item.credit - item.debit}}</td>
-            <td>{{item.debit}}</td>
+            <td>{{item.credit | formatMoney}}</td>
+            <td>{{item.credit - item.debit | formatMoney}}</td>
+            <td>{{item.debit | formatMoney}}</td>
         </tr>
         </tbody>
     </table>
