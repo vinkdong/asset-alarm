@@ -42,3 +42,7 @@ var add = new Vue({
     methods: {
     }
 });
+
+Vue.filter("money",function (value,symbol) {
+    return symbol+value;
+});

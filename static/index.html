@@ -25,7 +25,7 @@
             <td>{{item.name}}</td>
             <td>{{item.credit | formatMoney}}</td>
             <td>{{item.credit - item.debit | formatMoney}}</td>
-            <td>{{item.debit | formatMoney}}</td>
+            <td>{{item.debit | money('¥')}}</td>
         </tr>
         </tbody>
     </table>
