@@ -21,7 +21,7 @@
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon">¥</span>
-                    <input type="text" class="form-control" id="inputGroupSuccess2" aria-describedby="inputGroupSuccess2Status">
+                    <input type="text" class="form-control" id="inputGroupSuccess2" aria-describedby="inputGroupSuccess2Status" v-model="credit">
                 </div>
                 <span id="inputGroupSuccess2Status" class="sr-only">(success)</span>
             </div>
@@ -66,7 +66,7 @@
                 <span id="inputGroupSuccess4Statu6" class="sr-only">(success)</span>
             </div>
         </div>
-        <button type="button" class="btn btn-primary  col-sm-offset-3">Submit</button>
+        <button type="button" class="btn btn-primary  col-sm-offset-3" @click="addItem">Submit</button>
     </form>
 </div>
 <script src="../node_modules/vue/dist/vue.min.js"></script>

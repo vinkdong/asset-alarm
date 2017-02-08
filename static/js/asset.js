@@ -31,7 +31,12 @@ var vm = new Vue({
 var add = new Vue({
     el: "#app-add",
     data: {
-        title:"Hello add asset"
+        title: "Hello add asset",
+        credit: 0,
+        debit: 0,
+        account_date: 1,
+        repayment_date: 1,
+        balance: 0,
     },
     filters: {
 
@@ -40,6 +45,21 @@ var add = new Vue({
 
     },
     methods: {
+        addItem: function () {
+            this.$http.post("/api/item/add", {
+                version: "v0.1",
+                record: {
+                    "cid": 1,
+                    "type": "out",
+                    "credit": 10.000000,
+                    "debit": 50.000000,
+                    "amount": 10.000000,
+                    "time": "2017-01-21 20:08:09"
+                }
+            }).then(res => {
+                console.log(res)
+            });
+        }
     }
 });
 
