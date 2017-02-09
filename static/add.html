@@ -11,59 +11,59 @@
     <h1 class="modal-title text-center col-sm-6 media-middle" style="line-height: 156px;">{{title}}</h1>
     <form class="form-horizontal col-sm-10 col-sm-offset-1 col-md-4 col-md-offset-2">
         <div class="form-group has-success has-feedback">
-            <label class="control-label col-sm-4" for="inputSuccess3">Bank Name</label>
+            <label class="control-label col-sm-4" for="bank-name">Bank Name</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="inputSuccess3" aria-describedby="inputSuccess3Status">
+                <input type="text" class="form-control" id="bank-name" v-model="name">
             </div>
         </div>
         <div class="form-group has-success has-feedback">
-            <label class="control-label col-sm-4" for="inputGroupSuccess2">Credit</label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">¥</span>
-                    <input type="text" class="form-control" id="inputGroupSuccess2" aria-describedby="inputGroupSuccess2Status" v-model="credit">
-                </div>
-                <span id="inputGroupSuccess2Status" class="sr-only">(success)</span>
-            </div>
-        </div>
-        <div class="form-group has-success has-feedback">
-            <label class="control-label col-sm-4" for="inputGroupSuccess2">Balance</label>
+            <label class="control-label col-sm-4" for="credit">Credit</label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon">¥</span>
-                    <input type="text" class="form-control" id="inputGroupSuccess3" aria-describedby="inputGroupSuccess2Status">
+                    <input type="text" class="form-control" id="credit" v-model="credit">
                 </div>
-                <span id="inputGroupSuccess3Status" class="sr-only">(success)</span>
+                <span class="sr-only">(success)</span>
             </div>
         </div>
         <div class="form-group has-success has-feedback">
-            <label class="control-label col-sm-4" for="inputGroupSuccess2">Debit</label>
+            <label class="control-label col-sm-4" for="balance">Balance</label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon">¥</span>
-                    <input type="text" class="form-control" id="inputGroupSuccess4" aria-describedby="inputGroupSuccess2Status">
+                    <input type="text" class="form-control" id="balance" v-bind:value="credit-debit"/>
                 </div>
-                <span id="inputGroupSuccess4Status" class="sr-only">(success)</span>
+                <span class="sr-only">(success)</span>
             </div>
         </div>
         <div class="form-group has-success has-feedback">
-            <label class="control-label col-sm-4" for="inputGroupSuccess2">Account Date</label>
+            <label class="control-label col-sm-4" for="debit">Debit</label>
+            <div class="col-sm-8">
+                <div class="input-group">
+                    <span class="input-group-addon">¥</span>
+                    <input type="text" class="form-control" id="debit" v-model="debit">
+                </div>
+                <span class="sr-only">(success)</span>
+            </div>
+        </div>
+        <div class="form-group has-success has-feedback">
+            <label class="control-label col-sm-4" for="account-date">Account Date</label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon">📅</span>
-                    <input type="text" class="form-control" id="inputGroupSuccess5" aria-describedby="inputGroupSuccess2Status">
+                    <input type="text" class="form-control" id="account-date" v-model="account_date">
                 </div>
-                <span id="inputGroupSuccess4Statu5" class="sr-only">(success)</span>
+                <span class="sr-only">(success)</span>
             </div>
         </div>
         <div class="form-group has-success has-feedback">
-            <label class="control-label col-sm-4" for="inputGroupSuccess2">Repayment Date</label>
+            <label class="control-label col-sm-4" for="repayment-date">Repayment Date</label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon">📅</span>
-                    <input type="text" class="form-control" id="inputGroupSuccess6" aria-describedby="inputGroupSuccess2Status">
+                    <input type="text" class="form-control" id="repayment-date" v-model="repayment_date">
                 </div>
-                <span id="inputGroupSuccess4Statu6" class="sr-only">(success)</span>
+                <span class="sr-only">(success)</span>
             </div>
         </div>
         <button type="button" class="btn btn-primary  col-sm-offset-3" @click="addItem">Submit</button>
