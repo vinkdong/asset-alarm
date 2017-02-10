@@ -37,7 +37,8 @@ var add = new Vue({
         account_date: 1,
         repayment_date: 1,
         balance: 0,
-        name:"VinK Bank"
+        name:"VinK Bank",
+        icon: "../icon/vink.logo"
     },
     filters: {
 
@@ -50,16 +51,18 @@ var add = new Vue({
             this.$http.post("/api/item/add", {
                 version: "v0.1",
                 credit: {
-                    "name": "Vink Bank",
-                    "icon": "../icon/vink.logo",
-                    "credit": 10.000000,
-                    "debit": 50.000000,
-                    "balance": 10.000000,
-                    "account_date": 8,
-                    "repayment_date": 0
+                    name: this.name,
+                    icon: "../icon/vink.logo",
+                    credit: parseFloat(this.credit),
+                    debit: parseFloat(this.debit),
+                    balance: parseFloat(this.balance),
+                    account_date: parseInt(this.account_date),
+                    repayment_date: parseInt(this.repayment_date)
                 }
             }).then(res => {
-                console.log(res)
+                if(!!res.body.success){
+                    location.href="/"
+                }
             });
         }
     }
