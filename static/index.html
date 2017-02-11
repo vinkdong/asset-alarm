@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Credit Asset Manager by VinkDong</title>
     <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/model.css">
 </head>
 <body>
 <div class="container" id="app">
@@ -31,6 +32,29 @@
     </table>
     <div class="row text-center">
         <a class="btn-success" v-bind:href="context.pages.add_item_page">Add New</a>
+    </div>
+    <div id="showModal" class="md-modal modal-msg md-modal-transition md-show">
+        <div class="md-modal-inner">
+            <div class="md-top">
+                <button class="md-close">关闭</button>
+            </div>
+            <div class="md-content">
+                <div class="confirm-tips">
+                    <form class="form-horizontal">
+                        <div class="form-group has-success has-feedback">
+                            <label class="control-label col-sm-4 btn--m" for="bank-name" style="font-size: 23px">Amount</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control btn--m" id="bank-name"  v-model="change_amount">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="btn-wrap col-2">
+                    <button id="btnModalConfirm" class="btn btn--m">Consume</button>
+                    <button id="btnModalCancel" class="btn btn--m btn--red">Repayment</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script src="../node_modules/vue/dist/vue.min.js"></script>
