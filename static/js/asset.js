@@ -8,7 +8,8 @@ var vm = new Vue({
             }
         },
         change_amount:0,
-        credits:[]
+        credits:[],
+        editing: false
     },
     filters: {
         formatMoney(value) {
@@ -25,6 +26,12 @@ var vm = new Vue({
             this.$http.get("/api/list").then(res=>{
                 this.credits = res.body.credits;
             })
+        },
+        itemClick: function (item) {
+            this.editing = true;
+        },
+        modelClose: function () {
+            this.editing = false;
         }
     }
 });
