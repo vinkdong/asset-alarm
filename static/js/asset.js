@@ -9,7 +9,8 @@ var vm = new Vue({
         },
         change_amount:0,
         credits:[],
-        editing: false
+        editing: false,
+        curItem: ""
     },
     filters: {
         formatMoney(value) {
@@ -28,6 +29,7 @@ var vm = new Vue({
             })
         },
         itemClick: function (item) {
+            this.curItem = item.name;
             this.editing = true;
         },
         modelClose: function () {
