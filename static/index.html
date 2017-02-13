@@ -57,7 +57,7 @@
             </div>
         </div>
     </div>
-    <div class="md-overlay" v-if="editing"></div>
+    <div class="md-overlay" v-if="editing" @click="modelClose"></div>
 </div>
 <script src="../node_modules/vue/dist/vue.min.js"></script>
 <script src="../node_modules/vue-resource/dist/vue-resource.min.js"></script>
