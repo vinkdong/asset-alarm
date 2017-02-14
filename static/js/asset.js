@@ -29,11 +29,39 @@ var vm = new Vue({
             })
         },
         itemClick: function (item) {
-            this.curItem = item.name;
+            this.curItem = item;
             this.editing = true;
         },
         modelClose: function () {
             this.editing = false;
+        },
+        addRecord: function (type) {
+            let cur = this.curItem;
+            let amount = 0;
+            if (type == 'in') {
+                amount = -parseFloat(this.change_amount);
+            } else {
+                amount = parseFloat(this.change_amount);
+            }
+            if(amount == 0){
+                return;
+            }
+            let date = new Date();
+            this.$http.post("/api/record/add", {
+                version: "v0.1",
+                record: {
+                    cid: cur.id,
+                    type: amount > 0 ? "out" : "in",
+                    credit: cur.credit,
+                    debit: cur.debit + amount,
+                    amount: amount,
+                    time: VDate.getNow()
+                }
+            }).then(res => {
+                if (!!res.body.success) {
+                    location.href = "/";
+                }
+            });
         }
     }
 });
@@ -81,3 +109,10 @@ var add = new Vue({
 Vue.filter("money",function (value,symbol) {
     return symbol+value;
 });
+
+var VDate = {
+    getNow: function () {
+        let date = new Date();
+        return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    }
+};
