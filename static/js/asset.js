@@ -7,7 +7,7 @@ var vm = new Vue({
                 add_item_page: "./add.html"
             }
         },
-        change_amount:0,
+        change_amount:"",
         credits:[],
         editing: false,
         curItem: ""
