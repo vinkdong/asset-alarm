@@ -99,3 +99,13 @@ func TestRecordFromJson(t *testing.T) {
 		t.Errorf("expect record type is %s but got %s", expect, r.Type)
 	}
 }
+
+func TestCreditBrowse(t *testing.T) {
+	TestCreditSave(t)
+	c := server.Credit{}
+	c.Browse(1)
+	expect := "招商银行"
+	if c.Name != expect {
+		t.Errorf("expect browse 1 of credit name is %s but got %s", expect, c.Name)
+	}
+}

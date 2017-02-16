@@ -91,6 +91,22 @@ func (c *Credit) Save() {
 	c.Id = id
 }
 
+func (c *Credit) Browse(id int) {
+	stmtSql := `select * from credit where id = ?`
+	r, err := Context.Db.Query(stmtSql, id)
+	if err != nil {
+		log.Errorf("Can't get credit id %d", id)
+		return
+	}
+	if !r.Next(){
+		return
+	}
+	err = c.ConvertFormRow(r)
+	if err != nil {
+		log.Errorf("browse credit %d fail", id)
+	}
+}
+
 func (c *Credit) ConvertFormRow(rows *sql.Rows) error {
 	var err error
 	if err = rows.Scan(&c.Id, &c.Name, &c.Icon, &c.Credit, &c.Debit, &c.Balance, &c.Account_date, &c.Repayment_date); err != nil {
