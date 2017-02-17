@@ -102,8 +102,12 @@ func HandLerAddRecord(resp http.ResponseWriter, req *http.Request) {
 	record := js.Get("record")
 	r := &Record{}
 	r.ConvertFromJson(record)
-	r.Save()
+	err = r.Save()
 	resp.Header().Set("content-type", "application/json")
-	resp.Write([]byte(`{"success":true}`))
+	if err == nil{
+		resp.Write([]byte(`{"success":true}`))
+	}else {
+		resp.Write([]byte(`{"success":false}`))
+	}
 }
 

@@ -3,8 +3,9 @@ package server
 import (
 	"database/sql"
 	"github.com/VinkDong/asset-alarm/log"
-	"fmt"
 	"github.com/bitly/go-simplejson"
+	"strconv"
+	"fmt"
 )
 
 type Credit struct {
@@ -28,23 +29,39 @@ type Record struct {
 	Time     string
 }
 
-func (r *Record) Save() {
+func (r *Record) Save() error{
 	var stmtSql string
 	if r.Id == 0 {
 		stmtSql = "INSERT INTO record(credit_id,type,amount,credit,debit,time) VALUES (?,?,?,?,?,?);"
 	} else {
-		stmtSql = "UPDATE record SET credit_id = ?,type = ? ,amount = ? ,credit = ? ,debit = ?, time = ? where id = ;" +
-			string(r.Id)
+		stmtSql = "UPDATE record SET credit_id = ?,type = ? ,amount = ? ,credit = ? ,debit = ?, time = ? where id = " +
+			strconv.FormatInt(r.Id, 8)
+	}
+	c := &Credit{}
+	c.Browse(r.CreditId)
+	c.Debit += r.Amount
+	c.Balance += r.Amount
+	err := c.Save()
+	if err != nil {
+		return err
 	}
 	tx, stmt, err := prepareStmt(stmtSql)
 	if err != nil {
 		log.Error(err)
+		return err
 	}
 	defer stmt.Close()
 	result, err := stmt.Exec(r.CreditId, r.Type, r.Amount, r.Credit, r.Debit, r.Time)
+	if err != nil{
+		return err
+	}
 	id, err := result.LastInsertId()
+	if err != nil{
+		return err
+	}
 	tx.Commit()
 	r.Id = id
+	return nil
 }
 
 func (r *Record) ConvertFromJson(js *simplejson.Json) {
@@ -72,26 +89,35 @@ func prepareStmt(stmtSql string) (*sql.Tx, *sql.Stmt, error) {
 	return tx, stmt, err
 }
 
-func (c *Credit) Save() {
+func (c *Credit) Save() error {
 	var stmtSql string
 	if c.Id == 0 {
 		stmtSql = "insert into credit(name,icon,credit,debit,balance,account_date,repayment_date) values(?,?,?,?,?,?,?)"
 	} else {
-		stmtSql = "update credit set name = ?, icon =? ,credit =?,debit =?,balance =?,account_date =?,repayment_date =? where id =" +
-			string(c.Id)
+		stmtSql = "update credit set name = ?, icon =? ,credit =?,debit =?,balance =?,account_date =?,repayment_date =? where id = " + strconv.FormatInt(c.Id,4)
 	}
 	tx, stmt, err := prepareStmt(stmtSql)
 	if err != nil {
 		log.Error(err)
+		return err
 	}
 	defer stmt.Close()
 	r, err := stmt.Exec(c.Name, c.Icon, c.Credit, c.Debit, c.Balance, c.Account_date, c.Repayment_date)
+	if err != nil {
+		tx.Commit()
+		return err
+	}
 	id, err := r.LastInsertId()
+	if err != nil {
+		tx.Commit()
+		return err
+	}
 	tx.Commit()
 	c.Id = id
+	return nil
 }
 
-func (c *Credit) Browse(id int) {
+func (c *Credit) Browse(id int64) {
 	stmtSql := `select * from credit where id = ?`
 	r, err := Context.Db.Query(stmtSql, id)
 	if err != nil {
@@ -102,6 +128,7 @@ func (c *Credit) Browse(id int) {
 		return
 	}
 	err = c.ConvertFormRow(r)
+	r.Close()
 	if err != nil {
 		log.Errorf("browse credit %d fail", id)
 	}
