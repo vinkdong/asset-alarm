@@ -81,6 +81,21 @@ func TestRecordSave(t *testing.T) {
 	}
 }
 
+func TestModifyCreditWhenNewRecordAdded(t *testing.T)  {
+	os.Remove("./t.db")
+	TestDbInit(t)
+	TestExits(t)
+	server.Context.Db = sou
+	c := server.Credit{Debit: 100.0,Credit:100000}
+	c.Save()
+	a := server.Record{CreditId: 1, Credit: 9, Amount: 8, Time: "2017-01-20 20:22:01"}
+	a.Save()
+	c.Browse(1)
+	if c.Debit != 108.00 {
+		t.Errorf("modify credit want get 108.00 but got value %f", c.Debit)
+	}
+}
+
 func TestRecordFromJson(t *testing.T) {
 	js, _ := simplejson.NewJson([]byte(`
 {
