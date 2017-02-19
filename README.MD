@@ -1,5 +1,32 @@
 # The Asset Alarm [![Build Status](https://travis-ci.org/VinkDong/asset-alarm.svg?branch=master)](http://vinkdong.com/asset-manager)
+
+### introduce 
+
 To manager all credit that should very nice
+
+### quickstart
+
+- install dependencies
+
+  ```bash
+  go get github.com/bitly/go-simplejson \
+         github.com/mattn/go-sqlite3 
+  ```
+  
+  ```bash
+   git clone https://github.com/vinkdong/asset-alarm.git
+   cd asset-alarm
+   npm install
+   ```
+  
+- start server 
+ 
+  ```bash
+  go build 
+  ./asset-alarm -db=./t.db start
+  ```
+
+### REST api
 
 <table>
   <thead>
