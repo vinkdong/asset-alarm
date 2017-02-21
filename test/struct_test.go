@@ -124,3 +124,8 @@ func TestCreditBrowse(t *testing.T) {
 		t.Errorf("expect browse 1 of credit name is %s but got %s", expect, c.Name)
 	}
 }
+
+func TestCommonSave(t *testing.T) {
+	a := server.Bill{Id:5,Balance:10}
+	server.CommonSave(a)
+}

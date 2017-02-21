@@ -6,6 +6,7 @@ import (
 	"github.com/bitly/go-simplejson"
 	"strconv"
 	"fmt"
+	"reflect"
 )
 
 type Credit struct {
@@ -192,4 +193,36 @@ func (r *Record) Save() error{
 	tx.Commit()
 	r.Id = id
 	return nil
+}
+
+func CommonSave(r interface{}) error {
+	v := reflect.ValueOf(r)
+	indirect := reflect.Indirect(v)
+	//fmt.Println(indirectType.Field(1).Name,ind.Field(1).Int())
+
+	vls := make(map[string]string)
+	for i := 0; i < v.NumField(); i++ {
+		file_name := indirect.Type().Field(i).Name
+		vls[file_name] = ConvertString(indirect.Field(i))
+		fmt.Println(file_name,vls[file_name])
+	}
+
+	return nil
+}
+
+func ConvertString(i reflect.Value) string {
+	switch i.Kind() {
+	case reflect.String:
+		return fmt.Sprintf("\"%s\"", i.String())
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return fmt.Sprintf("%d", i.Int())
+	case reflect.Float32, reflect.Float64:
+		return fmt.Sprintf("%.2f", i.Float())
+	case reflect.Bool:
+		if i.Bool() {
+			return "true"
+		}
+		return "false"
+	}
+	return ""
 }
