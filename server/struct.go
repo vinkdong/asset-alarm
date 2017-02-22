@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"fmt"
 	"reflect"
+	"bytes"
 )
 
 type Credit struct {
@@ -204,10 +205,24 @@ func CommonSave(r interface{}) error {
 	for i := 0; i < v.NumField(); i++ {
 		file_name := indirect.Type().Field(i).Name
 		vls[file_name] = ConvertString(indirect.Field(i))
-		fmt.Println(file_name,vls[file_name])
 	}
 
 	return nil
+}
+
+func packToCol(key string) string {
+	var buf bytes.Buffer
+	for index, v := range []byte(key) {
+		if v >= 65 && v <= 90 {
+			if index > 0 {
+				buf.WriteByte('_')
+			}
+			buf.WriteByte(v + 32)
+		} else {
+			buf.WriteByte(v)
+		}
+	}
+	return buf.String()
 }
 
 func ConvertString(i reflect.Value) string {
