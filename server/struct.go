@@ -210,7 +210,7 @@ func CommonSave(r interface{}) error {
 	return nil
 }
 
-func packToCol(key string) string {
+func PackToCol(key string) string {
 	var buf bytes.Buffer
 	for index, v := range []byte(key) {
 		if v >= 65 && v <= 90 {

@@ -129,3 +129,14 @@ func TestCommonSave(t *testing.T) {
 	a := server.Bill{Id:5,Balance:10}
 	server.CommonSave(a)
 }
+
+func TestKeyToColumn(t *testing.T) {
+	a := "apple"
+	b := "deskNote"
+	if ea := server.PackToCol(a); ea != "apple" {
+		t.Errorf("expect apple to apple but got %s", ea)
+	}
+	if eb := server.PackToCol(b); eb != "desk_note" {
+		t.Errorf("expect deskNote to desk_note but got %s", eb)
+	}
+}
