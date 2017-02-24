@@ -196,17 +196,19 @@ func (r *Record) Save() error{
 	return nil
 }
 
-func CommonSave(r interface{}) error {
+func Interface2map(r interface{})  map[string]string{
 	v := reflect.ValueOf(r)
 	indirect := reflect.Indirect(v)
-	//fmt.Println(indirectType.Field(1).Name,ind.Field(1).Int())
 
 	vls := make(map[string]string)
 	for i := 0; i < v.NumField(); i++ {
 		file_name := indirect.Type().Field(i).Name
-		vls[file_name] = ConvertString(indirect.Field(i))
+		vls[PackToCol(file_name)] = ConvertString(indirect.Field(i))
 	}
+	return vls
+}
 
+func CommonSave(r interface{}) error {
 	return nil
 }
 

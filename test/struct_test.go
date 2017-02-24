@@ -125,9 +125,20 @@ func TestCreditBrowse(t *testing.T) {
 	}
 }
 
-func TestCommonSave(t *testing.T) {
+func TestInterface2map(t *testing.T) {
 	a := server.Bill{Id:5,Balance:10}
-	server.CommonSave(a)
+	a_v := server.Interface2map(a)
+
+	expect_a_id := "5"
+	if a_v["id"] != expect_a_id{
+		t.Errorf("expect id of a is %s but got %s",expect_a_id,a_v["id"])
+	}
+	b := server.Credit{Name:"CMB Bank"}
+	b_v := server.Interface2map(b)
+	expect_b_name := "\"CMB Bank\""
+	if b_v["name"] != expect_b_name{
+		t.Errorf("expect name of b is %s but got %s",expect_b_name,b_v["name"])
+	}
 }
 
 func TestKeyToColumn(t *testing.T) {
