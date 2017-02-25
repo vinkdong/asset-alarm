@@ -151,3 +151,20 @@ func TestKeyToColumn(t *testing.T) {
 		t.Errorf("expect deskNote to desk_note but got %s", eb)
 	}
 }
+
+func TestGenerateSql(t *testing.T) {
+	a := make(map[string]string)
+	a["credit"] = "0.4"
+	a["id"] = "0"
+	stmt_sql := server.GenerateSql(a, "credit")
+	expect := "INSERT INTO credit(credit) VALUES(0.4)"
+	if expect != stmt_sql {
+		t.Errorf("expect sql is %s but got %s", expect, stmt_sql)
+	}
+	a["id"] = "3"
+	stmt_sql = server.GenerateSql(a, "credit")
+	expect = "UPDATE record SET credit=0.4 where id = 3"
+	if expect != stmt_sql {
+		t.Errorf("expect sql is %s but got %s", expect, stmt_sql)
+	}
+}

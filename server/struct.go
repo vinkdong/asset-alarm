@@ -208,8 +208,65 @@ func Interface2map(r interface{})  map[string]string{
 	return vls
 }
 
-func CommonSave(r interface{}) error {
+func FormatString(buf bytes.Buffer) string {
+	b := buf.Bytes()
+	return string(b[:len(b)-1])
+}
+
+func CommonSave(r interface{},name string) error {
+	val := Interface2map(r)
+	var stmtSql string
+	if val["id"] == "0" {
+		var header bytes.Buffer
+		var values bytes.Buffer
+		for k, v := range val {
+			if k == "id" {
+				continue
+			}
+			header.WriteString(k + ",")
+			values.WriteString(v + ",")
+		}
+		stmtSql = fmt.Sprintf("INSERT INTO %s(%s) VALUES(%s)", name, FormatString(header), FormatString(values))
+	} else {
+		var values bytes.Buffer
+		values.WriteString("UPDATE record SET ")
+		for k, v := range val {
+			if k == "id" {
+				continue
+			}
+			values.WriteString(fmt.Sprintf("%s=%s,", k, v))
+		}
+		stmtSql = FormatString(values) + "where id = " + val["id"]
+	}
+	fmt.Println(stmtSql)
 	return nil
+}
+
+func GenerateSql(val map[string]string, name string) string {
+	var stmtSql string
+	if val["id"] == "0" {
+		var header bytes.Buffer
+		var values bytes.Buffer
+		for k, v := range val {
+			if k == "id" {
+				continue
+			}
+			header.WriteString(k + ",")
+			values.WriteString(v + ",")
+		}
+		stmtSql = fmt.Sprintf("INSERT INTO %s(%s) VALUES(%s)", name, FormatString(header), FormatString(values))
+	} else {
+		var values bytes.Buffer
+		values.WriteString("UPDATE record SET ")
+		for k, v := range val {
+			if k == "id" {
+				continue
+			}
+			values.WriteString(fmt.Sprintf("%s=%s,", k, v))
+		}
+		stmtSql = FormatString(values) + " where id = " + val["id"]
+	}
+	return stmtSql
 }
 
 func PackToCol(key string) string {
