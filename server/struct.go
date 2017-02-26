@@ -213,33 +213,37 @@ func FormatString(buf bytes.Buffer) string {
 	return string(b[:len(b)-1])
 }
 
-func CommonSave(r interface{},name string) error {
+func CommonSave(r interface{}, name string) error {
 	val := Interface2map(r)
-	var stmtSql string
-	if val["id"] == "0" {
-		var header bytes.Buffer
-		var values bytes.Buffer
-		for k, v := range val {
-			if k == "id" {
-				continue
-			}
-			header.WriteString(k + ",")
-			values.WriteString(v + ",")
-		}
-		stmtSql = fmt.Sprintf("INSERT INTO %s(%s) VALUES(%s)", name, FormatString(header), FormatString(values))
-	} else {
-		var values bytes.Buffer
-		values.WriteString("UPDATE record SET ")
-		for k, v := range val {
-			if k == "id" {
-				continue
-			}
-			values.WriteString(fmt.Sprintf("%s=%s,", k, v))
-		}
-		stmtSql = FormatString(values) + "where id = " + val["id"]
+	stmtSql := GenerateSql(val, name)
+	tx, stmt, err := prepareStmt(stmtSql)
+	if err != nil {
+		log.Error(err)
+		return err
 	}
-	fmt.Println(stmtSql)
+	defer stmt.Close()
+	result, err := stmt.Exec()
+	if err != nil{
+		return err
+	}
+	id, err := result.LastInsertId()
+	if err != nil {
+		return err
+	}
+	tx.Commit()
+	SaveId(r, id)
 	return nil
+}
+
+func SaveId(x interface{}, id int64) {
+	v := reflect.ValueOf(x)
+	indirect_type := reflect.Indirect(v).Type()
+	el := v.Elem()
+	for i := 0; i < el.NumField(); i++ {
+		if indirect_type.Field(i).Name == "Id" {
+			el.Field(i).SetInt(id)
+		}
+	}
 }
 
 func GenerateSql(val map[string]string, name string) string {

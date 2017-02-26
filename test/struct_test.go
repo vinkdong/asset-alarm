@@ -168,3 +168,11 @@ func TestGenerateSql(t *testing.T) {
 		t.Errorf("expect sql is %s but got %s", expect, stmt_sql)
 	}
 }
+
+func TestSaveId(t *testing.T) {
+	a := server.Credit{Id: 8}
+	server.SaveId(&a, 9)
+	if a.Id != 9 {
+		t.Errorf("expect save id is 9 but got %d", a.Id)
+	}
+}
