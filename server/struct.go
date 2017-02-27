@@ -201,7 +201,7 @@ func Interface2map(r interface{})  map[string]string{
 	indirect := reflect.Indirect(v)
 
 	vls := make(map[string]string)
-	for i := 0; i < v.NumField(); i++ {
+	for i := 0; i < v.Elem().NumField();i++ {
 		file_name := indirect.Type().Field(i).Name
 		vls[PackToCol(file_name)] = ConvertString(indirect.Field(i))
 	}

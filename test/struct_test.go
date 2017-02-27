@@ -127,14 +127,14 @@ func TestCreditBrowse(t *testing.T) {
 
 func TestInterface2map(t *testing.T) {
 	a := server.Bill{Id:5,Balance:10}
-	a_v := server.Interface2map(a)
+	a_v := server.Interface2map(&a)
 
 	expect_a_id := "5"
 	if a_v["id"] != expect_a_id{
 		t.Errorf("expect id of a is %s but got %s",expect_a_id,a_v["id"])
 	}
 	b := server.Credit{Name:"CMB Bank"}
-	b_v := server.Interface2map(b)
+	b_v := server.Interface2map(&b)
 	expect_b_name := "\"CMB Bank\""
 	if b_v["name"] != expect_b_name{
 		t.Errorf("expect name of b is %s but got %s",expect_b_name,b_v["name"])
@@ -174,5 +174,25 @@ func TestSaveId(t *testing.T) {
 	server.SaveId(&a, 9)
 	if a.Id != 9 {
 		t.Errorf("expect save id is 9 but got %d", a.Id)
+	}
+}
+
+func TestCommonSave(t *testing.T)  {
+	os.Remove("./t.db")
+	TestDbInit(t)
+	TestExits(t)
+	server.Context.Db = sou
+	a := server.Credit{Name: "CMB Bank", Credit: 1000000}
+	server.CommonSave(&a, "credit")
+	expect := 1
+	if int64(expect) != a.Id {
+		t.Errorf("expect saved id is %d, but got %d", expect, a.Id)
+	}
+
+	var b server.Credit
+	b.Browse(1)
+	expect_name := "CMB Bank"
+	if expect_name != b.Name {
+		t.Errorf("expect saved name is %s, but got %s", expect_name, b.Name)
 	}
 }
