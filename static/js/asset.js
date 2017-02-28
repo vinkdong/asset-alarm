@@ -99,9 +99,12 @@ var add = new Vue({
                 }
             }).then(res => {
                 if(!!res.body.success){
-                    location.href="/"
+                    location.href="/";
                 }
             });
+        },
+        addItemCancel: function () {
+            location.href="/";
         }
     }
 });
