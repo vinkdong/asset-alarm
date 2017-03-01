@@ -22,7 +22,7 @@ func main() {
 	server.Start()
 }
 
-func InitArgs()  {
+func InitArgs() {
 	flag.Parse()
 }
 
@@ -35,5 +35,9 @@ func InitDb() {
 	if !dbmanager.Exists(db, "record") {
 		dbmanager.InitRecordTable(db)
 	}
+	if !dbmanager.Exists(db, "bill") {
+		dbmanager.InitBillTable(db)
+	}
+
 	server.Context.Db = db
 }

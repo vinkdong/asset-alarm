@@ -40,6 +40,11 @@ type Bill struct {
 	Balance  float64
 }
 
+func (b *Bill) Save() {
+	CommonSave(b,"bill")
+
+}
+
 type Alarm struct {
 	Db      *sql.DB
 	Credits []Credit

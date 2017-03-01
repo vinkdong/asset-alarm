@@ -48,6 +48,22 @@ CREATE TABLE record (
 	return err
 }
 
+func InitBillTable(db *sql.DB) error {
+	sqlStmt := `
+CREATE TABLE bill (
+  id        INTEGER NOT NULL PRIMARY KEY,
+  credit_id INT,
+  year      int,
+  month     int,
+  credit    FLOAT,
+  amount    FLOAT,
+  balance   FLOAT
+)
+`
+	_, err := db.Exec(sqlStmt)
+	return err
+}
+
 func Exists(db *sql.DB, table string) bool {
 	query := fmt.Sprintf(SQL_EXIT, table)
 	r, err := db.Query(query)
