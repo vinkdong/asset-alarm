@@ -4,7 +4,8 @@ var vm = new Vue({
         title:"Hello Asset Alarm",
         context: {
             pages:{
-                add_item_page: "./add.html"
+                add_item_page: "./add.html",
+                view_bill_page: "./bill.html",
             }
         },
         change_amount:"",
@@ -63,6 +64,29 @@ var vm = new Vue({
                 }
             });
         }
+    }
+});
+
+var bill= new  Vue({
+    el: "#bill",
+    data: {
+        title: "View Bill",
+        credit: 0,
+        debit: 0,
+        account_date: 1,
+        repayment_date: 1,
+        balance: 0,
+        name:"VinK Bank",
+        icon: "../icon/vink.logo"
+    },
+    filters: {
+
+    },
+    mounted: function () {
+
+    },
+    methods: {
+
     }
 });
 

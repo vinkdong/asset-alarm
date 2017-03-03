@@ -30,8 +30,9 @@
         </tr>
         </tbody>
     </table>
-    <div class="row text-center">
-        <a class="btn-success" v-bind:href="context.pages.add_item_page">Add New</a>
+    <div class="text-center">
+        <a class="btn--m btn" v-bind:href="context.pages.add_item_page">Add New</a>
+        <a class="btn--m btn" v-bind:href="context.pages.view_bill_page">View Bill</a>
     </div>
     <div id="showModal" class="md-modal modal-msg md-modal-transition" v-bind:class="{'md-show':editing}">
         <div class="md-modal-inner">
