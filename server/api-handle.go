@@ -5,17 +5,34 @@ import (
 	"github.com/VinkDong/asset-alarm/log"
 	"github.com/VinkDong/asset-alarm/dbmanager"
 	"github.com/bitly/go-simplejson"
+	"strings"
 )
 
 func apiHandler(resp http.ResponseWriter, req *http.Request) {
 	uri := req.URL.Path[5:]
 
-	switch uri {
+	split_location := strings.Index(uri, "/")
+	u := uri
+	if split_location != -1 {
+		u = uri[:split_location]
+	}
+	switch u {
 	case "list":
 		if checkAccess(resp, req) {
 			HandlerList(resp, req)
 		}
 		break
+	case "item":
+		itemHandler(resp, req, uri)
+	case "record":
+		recordHandler(resp, req, uri)
+	default:
+		HandlerApiHome(resp, req)
+	}
+}
+
+func itemHandler(resp http.ResponseWriter, req *http.Request, uri string) {
+	switch uri {
 	case "item/add":
 		if checkAccess(resp, req) {
 			HandLerAddItem(resp, req)
@@ -28,12 +45,15 @@ func apiHandler(resp http.ResponseWriter, req *http.Request) {
 		if checkAccess(resp, req) {
 			HandLerUpdateItem(resp, req)
 		}
+	}
+}
+
+func recordHandler(resp http.ResponseWriter, req *http.Request, uri string) {
+	switch uri {
 	case "record/add":
 		if checkAccess(resp, req) {
 			HandLerAddRecord(resp, req)
 		}
-	default:
-		HandlerApiHome(resp, req)
 	}
 }
 
