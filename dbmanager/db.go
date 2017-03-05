@@ -55,6 +55,7 @@ CREATE TABLE bill (
   credit_id INT,
   year      int,
   month     int,
+  day       int,
   credit    FLOAT,
   amount    FLOAT,
   balance   FLOAT
