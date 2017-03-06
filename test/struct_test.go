@@ -9,6 +9,13 @@ import (
 	"github.com/bitly/go-simplejson"
 )
 
+func initTestDb(t *testing.T)  {
+	os.Remove("./t.db")
+	TestDbInit(t)
+	TestExits(t)
+	server.Context.Db = sou
+}
+
 func TestCreditSave(t *testing.T) {
 	os.Remove("./t.db")
 	a := server.Credit{Name: "招商银行"}
@@ -194,5 +201,17 @@ func TestCommonSave(t *testing.T)  {
 	expect_name := "CMB Bank"
 	if expect_name != b.Name {
 		t.Errorf("expect saved name is %s, but got %s", expect_name, b.Name)
+	}
+}
+
+func TestListBill(t *testing.T) {
+	initTestDb(t)
+	var x server.Bill
+	x.Credit = 200
+	x.Save()
+	li := x.List()
+	expect := 1
+	if expect != len(li) {
+		t.Errorf("expect len of bill is %d but got %d", expect, len(li))
 	}
 }

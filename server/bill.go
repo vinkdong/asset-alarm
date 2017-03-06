@@ -1,5 +1,10 @@
 package server
 
+import (
+	"database/sql"
+	"github.com/VinkDong/asset-alarm/log"
+)
+
 type Bill struct {
 	Id       int64
 	CreditId int64
@@ -14,4 +19,29 @@ type Bill struct {
 func (b *Bill) Save() {
 	CommonSave(b,"bill")
 
+}
+
+func (b *Bill) ConvertFormRow(rows *sql.Rows) error {
+	var err error
+	if err = rows.Scan(&b.Id, &b.CreditId, &b.Year, &b.Month, &b.Day, &b.Amount, &b.Balance, &b.Credit); err != nil {
+		log.Error("convert rows to credit object error")
+	}
+	return err
+}
+
+func (b *Bill) List() []Bill {
+	stmtSql := `select * from bill `
+	r, err := Context.Db.Query(stmtSql)
+	if err != nil {
+		log.Errorf("can't exec query %s", stmtSql)
+		return nil
+	}
+	bList := make([]Bill, 0)
+	for ; r.Next(); {
+		var q Bill
+		err = q.ConvertFormRow(r)
+		bList = append(bList, q)
+	}
+	r.Close()
+	return bList
 }

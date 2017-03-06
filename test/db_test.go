@@ -33,10 +33,15 @@ func TestExits(t *testing.T) {
 	}
 
 	dbmanager.InitRecordTable(sou)
-	dbmanager.InitRecordTable(sou)
 	exits = dbmanager.Exists(sou, "record")
 	if exits == false {
 		t.Error("dbmanager init test fail exit record table asset should be true")
+	}
+
+	dbmanager.InitBillTable(sou)
+	exits = dbmanager.Exists(sou, "bill")
+	if exits == false {
+		t.Error("dbmanager init test fail exit bill table asset should be true")
 	}
 
 }
