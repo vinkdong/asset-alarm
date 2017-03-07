@@ -18,6 +18,21 @@ func prepareStmt(stmtSql string) (*sql.Tx, *sql.Stmt, error) {
 	return tx, stmt, err
 }
 
+func CommonToJsonStr(r interface{}) string {
+	val := Interface2map(r)
+	return GenerateJsonStr(val)
+}
+
+func GenerateJsonStr(val map[string]string) string {
+	var buf bytes.Buffer
+	buf.WriteString("{\n")
+	for k, v := range val {
+		buf.WriteString(fmt.Sprintf("  \"%s\":%s,\n", k, v))
+	}
+	jsonStr := FormatString(buf,1)
+	return jsonStr + "\n}"
+}
+
 func Interface2map(r interface{})  map[string]string{
 	v := reflect.ValueOf(r)
 	indirect := reflect.Indirect(v)
@@ -30,9 +45,9 @@ func Interface2map(r interface{})  map[string]string{
 	return vls
 }
 
-func FormatString(buf bytes.Buffer) string {
+func FormatString(buf bytes.Buffer, indent int) string {
 	b := buf.Bytes()
-	return string(b[:len(b)-1])
+	return string(b[:len(b)-1-indent])
 }
 
 func CommonSave(r interface{}, name string) error {
@@ -103,7 +118,7 @@ func GenerateSql(val map[string]string, name string) string {
 			header.WriteString(k + ",")
 			values.WriteString(v + ",")
 		}
-		stmtSql = fmt.Sprintf("INSERT INTO %s(%s) VALUES(%s)", name, FormatString(header), FormatString(values))
+		stmtSql = fmt.Sprintf("INSERT INTO %s(%s) VALUES(%s)", name, FormatString(header,0), FormatString(values,0))
 	} else {
 		var values bytes.Buffer
 		values.WriteString("UPDATE record SET ")
@@ -113,7 +128,7 @@ func GenerateSql(val map[string]string, name string) string {
 			}
 			values.WriteString(fmt.Sprintf("%s=%s,", k, v))
 		}
-		stmtSql = FormatString(values) + " where id = " + val["id"]
+		stmtSql = FormatString(values,0) + " where id = " + val["id"]
 	}
 	return stmtSql
 }

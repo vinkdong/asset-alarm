@@ -3,6 +3,7 @@ package server
 import (
 	"database/sql"
 	"github.com/VinkDong/asset-alarm/log"
+	"fmt"
 )
 
 type Bill struct {
@@ -27,6 +28,20 @@ func (b *Bill) ConvertFormRow(rows *sql.Rows) error {
 		log.Error("convert rows to credit object error")
 	}
 	return err
+}
+
+func (b *Bill) ToJsonString() string {
+	jsonStr := fmt.Sprintf(`{
+	"id":"%s",
+	"credit_id":"%s",
+	"credit":%f,
+	"debit":%f,
+	"balance":%f,
+	"account_date":%d,
+	"repayment_date":%d,
+	"id":%d
+}`, &b.Id, &b.CreditId, &b.Year, &b.Month, &b.Day, &b.Amount, &b.Balance, &b.Credit)
+	return jsonStr
 }
 
 func (b *Bill) List() []Bill {
