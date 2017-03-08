@@ -3,7 +3,7 @@ package server
 import (
 	"database/sql"
 	"github.com/VinkDong/asset-alarm/log"
-	"fmt"
+	"github.com/bitly/go-simplejson"
 )
 
 type Bill struct {
@@ -31,17 +31,14 @@ func (b *Bill) ConvertFormRow(rows *sql.Rows) error {
 }
 
 func (b *Bill) ToJsonString() string {
-	jsonStr := fmt.Sprintf(`{
-	"id":"%s",
-	"credit_id":"%s",
-	"credit":%f,
-	"debit":%f,
-	"balance":%f,
-	"account_date":%d,
-	"repayment_date":%d,
-	"id":%d
-}`, &b.Id, &b.CreditId, &b.Year, &b.Month, &b.Day, &b.Amount, &b.Balance, &b.Credit)
+	jsonStr := CommonToJsonStr(b)
 	return jsonStr
+}
+
+func (b *Bill) ToJsonObj() (*simplejson.Json, error) {
+	jsonStr := b.ToJsonString()
+	js, err := simplejson.NewJson([]byte(jsonStr))
+	return js, err
 }
 
 func (b *Bill) List() []Bill {

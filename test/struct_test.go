@@ -215,3 +215,11 @@ func TestListBill(t *testing.T) {
 		t.Errorf("expect len of bill is %d but got %d", expect, len(li))
 	}
 }
+
+func TestBillToJsonObj(t *testing.T)  {
+	b := server.Bill{Credit:1000012}
+	js, _ := b.ToJsonObj()
+	if js.Get("credit").MustFloat64() != 1000012 {
+		t.Errorf("expect credit of js object is 1 but got %f", js.Get("credit").MustFloat64())
+	}
+}
