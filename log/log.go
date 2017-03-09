@@ -12,7 +12,7 @@ func Info(l interface{}) {
 }
 
 func Infof(l string, a ...interface{}) {
-	tmp := fmt.Sprintf(l, a)
+	tmp := fmt.Sprintf(l, a...)
 	info := fmt.Sprintf("%s [%s] %s", time.Now().String(), "INFO", tmp)
 	log.Println(info)
 }
@@ -23,7 +23,7 @@ func Error(l interface{}) {
 }
 
 func Errorf(format string, a ...interface{}) {
-	tmp := fmt.Sprintf(format, a)
+	tmp := fmt.Sprintf(format, a...)
 	err := fmt.Sprintf("%s [%s] %s", time.Now().String(), "Error", tmp)
 	log.Println(err)
 }
