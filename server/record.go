@@ -17,9 +17,9 @@ type Record struct {
 	Time     string
 }
 
-func (c *Record) ConvertFormRow(rows *sql.Rows) error {
+func (r *Record) ConvertFormRow(rows *sql.Rows) error {
 	var err error
-	if err = rows.Scan(&c.Id, &c.CreditId, &c.Type, &c.Amount, &c.Credit, &c.Debit, &c.Time); err != nil {
+	if err = rows.Scan(&r.Id, &r.CreditId, &r.Type, &r.Amount, &r.Credit, &r.Debit, &r.Time); err != nil {
 		log.Error("convert rows to credit object error")
 	}
 	return err
