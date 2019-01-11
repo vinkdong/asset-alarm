@@ -39,6 +39,8 @@ spec:
       - name: ui
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          privileged: true
         ports:
         - containerPort: 2375
           name: tcp
