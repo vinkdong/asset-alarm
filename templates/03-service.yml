@@ -1,0 +1,21 @@
+{{- if .Values.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+{{ include "service.labels.standard" . | indent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+{{- if not (empty .Values.service.externalIPs) }}
+  externalIPs: 
+{{ toYaml .Values.service.externalIPs | indent 2 }}
+{{- end }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 2375
+      protocol: TCP
+      name: http
+  selector:
+{{ include "service.labels.standard" . | indent 4 }}
+{{- end }}

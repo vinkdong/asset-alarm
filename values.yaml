@@ -1,0 +1,16 @@
+image:
+  repository: docker
+  tag: dind
+  pullPolicy: IfNotPresent
+
+resources: {}
+
+service:
+  type: ClusterIP
+  port: 2375
+  enabled: false
+
+metrics:
+  enabled: false
+logs:
+  parser: docker
